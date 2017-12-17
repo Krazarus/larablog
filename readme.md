@@ -7,5 +7,7 @@
 
 
 admin
-# email:    admin@example.com
-# password: admin
+
+email:    admin@example.com
+
+password: admin
