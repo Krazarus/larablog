@@ -36,5 +36,7 @@
                 {{--{{ $post->test() }}--}}
             </div>
         </div>
+
+
     </div>
 @endsection

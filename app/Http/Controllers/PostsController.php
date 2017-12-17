@@ -22,7 +22,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::paginate(5);
         return view('posts.index', compact('posts'));
     }
 
@@ -44,6 +44,10 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+        ]);
         $name = $this->isThumbnail($request, '');
         $post = Post::create([
             'title' => request('title'),
@@ -90,6 +94,11 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+
         $post = Post::find($id);
         $this->check($post, 'update this post');
         if (request('file')) {

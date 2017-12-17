@@ -31,6 +31,6 @@ $factory->define(App\Post::class, function (Faker $faker) {
         },
         'title' => $faker->sentence,
         'thumbnail' => $faker->image('public/images', $width = 640, $height = 480),
-        'body' => $faker->paragraph
+        'body' => $faker->text($maxNbChars = 800)
     ];
 });

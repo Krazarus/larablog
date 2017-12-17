@@ -32,7 +32,7 @@ class Post extends Model
 
     public function checkCreator()
     {
-        $admin = User::where('name', 'John')->first();
+        $admin = User::where('name', 'admin')->first();
         if ($this->user_id == auth()->id()) {
             return true;
         }

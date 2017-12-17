@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Edit  post:</h1>
+        <h1>Edit post:</h1>
 
         <form action="/posts/{{ $post->id }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
@@ -19,22 +19,23 @@
                 <p class="help-block">Example block-level help text here.</p>
             </div>
 
-            {{--<div class="form-group">--}}
-                {{--<label for="body">Body:</label>--}}
-                {{--<textarea name="body" id="body" class="form-control" required--}}
-                          {{--rows="8">{{ $post->body }}--}}
-                                {{--</textarea>--}}
-            {{--</div>--}}
-
-            <input id="trix" type="hidden" name="body" value="{{ $post->body }}">
-            <trix-editor input="trix"></trix-editor>
+            <div class="form-group">
+                <input id="trix" type="hidden" name="body" value="{{ $post->body }}">
+                <trix-editor input="trix"></trix-editor>
+            </div>
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Publish</button>
                 <a class="btn btn-default" href="/posts/{{ $post->id }}">Cancel</a>
             </div>
-            
-        </form>
 
+        </form>
+        @if(count($errors))
+            <ul class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                    <li> {{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
     </div>
 @endsection
