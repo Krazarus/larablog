@@ -57,7 +57,7 @@ class PostsController extends Controller
         ]);
 //        dd($post->id);
 
-        return redirect('');
+        return redirect($post->uri());
     }
 
     /**
@@ -81,7 +81,6 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-        $this->check($post, 'visit this page');
         return view('posts.edit', ['post' => $post]);
     }
 
@@ -100,7 +99,9 @@ class PostsController extends Controller
         ]);
 
         $post = Post::find($id);
-        $this->check($post, 'update this post');
+        if (!$post->checkCreator()){
+            return redirect('/whoops');
+        }
         if (request('file')) {
             $name = $this->isThumbnail($request, $post);
             $post->thumbnail = $name;
@@ -121,7 +122,9 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
-        $this->check($post, 'delete this post');
+        if (!$post->checkCreator()){
+            return redirect('/whoops');
+        }
         $file = $post->path();
         if ($file) {
             if (is_readable(public_path($file))){
@@ -164,15 +167,5 @@ class PostsController extends Controller
         return $name;
     }
 
-    /**
-     * @param $post
-     * @param string $action
-     */
-    protected function check($post, string $action): void
-    {
-        if (!$post->checkCreator()) {
-//            dd("You don`t have permissions to {$action} this post");
-            abort(403, "You haven`t permission {$action}");
-        }
-    }
+
 }

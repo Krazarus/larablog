@@ -18,7 +18,6 @@
                     </div>
                 @endif
 
-                {{--{{dd($post->checkCreator())}}--}}
                 <h1>{{ $post->title }}</h1>
                 @if($post->isUpdated())
                     <p>created: {{ $post->created_at->diffForHumans() }}</p>
@@ -33,7 +32,6 @@
                     <hr>
                 @endif
                 <p>{!!$post->body !!}</p>
-                {{--{{ $post->test() }}--}}
             </div>
         </div>
 

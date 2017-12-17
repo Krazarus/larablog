@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $guarded = [];
-    private $_isUpdated = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -15,6 +14,11 @@ class Post extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function uri()
+    {
+        return "/posts/{$this->id}";
     }
 
     public function path()

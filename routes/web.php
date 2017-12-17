@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/whoops', function () {
+    return ("Whoops is something wrong!");
 });
+
+//Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
