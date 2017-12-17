@@ -48,7 +48,7 @@ class PostsController extends Controller
             'title' => 'required',
             'body' => 'required',
         ]);
-        $name = $this->isThumbnail($request, '');
+        $name = $this->isThumbnail($request, request('file'));
         $post = Post::create([
             'title' => request('title'),
             'user_id' => auth()->id(),
@@ -144,7 +144,7 @@ class PostsController extends Controller
     {
         $name = '';
 
-        if ($request->has('file') && $post->thumbnail) {
+        if ($request->has('file') && $post) {
             if (is_readable(public_path($post->path()))) {
                 unlink(public_path($post->path()));
             }
