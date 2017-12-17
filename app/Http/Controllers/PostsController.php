@@ -115,7 +115,9 @@ class PostsController extends Controller
         $this->check($post, 'delete this post');
         $file = $post->path();
         if ($file) {
-            unlink(public_path($file));
+            if (is_readable(public_path($file))){
+                unlink(public_path($file));
+            }
         }
         $post->delete();
         return redirect('/posts');
@@ -131,7 +133,9 @@ class PostsController extends Controller
         $name = '';
 
         if ($request->has('file') && $post->thumbnail) {
-            unlink(public_path($post->path()));
+            if (is_readable(public_path($post->path()))) {
+                unlink(public_path($post->path()));
+            }
             $name = $this->setFileName();
         } elseif ($request->has('file') || $post = '') {
             $name = $this->setFileName();
