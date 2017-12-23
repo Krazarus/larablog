@@ -13,6 +13,20 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.11.1/trix.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .flash {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+        }
+
+        .message {
+            position: fixed;
+            right: 25px;
+            bottom: 105px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -37,6 +51,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        <li><a href="/filters">All Filters</a></li>
                         &nbsp;<li><a href="/posts">All Posts</a></li>
                         &nbsp;<li><a href="/posts/create">New Post</a></li>
                     </ul>
@@ -79,5 +94,17 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/0.11.1/trix.js"></script>
+    <script>
+        var array = ['.message', '.flash'];
+
+        function time(value) {
+            setTimeout(function () {
+                $(value).fadeOut('fast');
+            }, 3000);
+        }
+
+        array.map(time)
+
+    </script>
 </body>
 </html>

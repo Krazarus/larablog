@@ -34,3 +34,9 @@ $factory->define(App\Post::class, function (Faker $faker) {
         'body' => $faker->text($maxNbChars = 800)
     ];
 });
+
+$factory->define(App\Filter::class, function (Faker $faker) {
+    return [
+        'name' => $faker->sentence
+    ];
+});

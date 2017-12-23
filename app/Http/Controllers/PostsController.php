@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Filter;
+use App\Http\Requests\StorePost;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,25 +45,22 @@ class PostsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param StorePost $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
-        ]);
+        $filter = Filter::all()->pluck('name')->toArray();
         $name = $this->isThumbnail($request, request('file'));
         $post = Post::create([
             'title' => request('title'),
             'user_id' => auth()->id(),
-            'body' => request('body'),
+            'body' => str_ireplace($filter, (new Filter)->value($filter), request('body')),
             'thumbnail' => $name,
         ]);
-//        dd($post->id);
-
-        return redirect($post->uri());
+        return redirect($post->uri())
+            ->with(['flash' => 'Your post has been create!',
+                'class' => 'success']);
     }
 
     /**
@@ -72,48 +71,54 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        return view('posts.show', compact('post'));
+        $message = 'Nice, now you can edit this post!';
+
+        if ($post->checkCreator()){
+            $message = 'You are admin, do what you want';
+        }
+        return view('posts.show', compact('post', 'message'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Request $request
      * @param  int $id
      * @return void
      */
     public function edit($id)
     {
         $post = Post::find($id);
+
         return view('posts.edit', ['post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param StorePost $request
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, $id)
+    public function update(StorePost $request, $id)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
-        ]);
+        $filter = Filter::all()->pluck('name')->toArray();
 
         $post = Post::find($id);
-        if (!$post->checkCreator()){
-            return redirect('/whoops');
-        }
+
+        $this->authorize('update', $post);
+
         if (request('file')) {
             $name = $this->isThumbnail($request, $post);
             $post->thumbnail = $name;
         }
         $post->title = request('title');
-        $post->body = request('body');
+        $post->body = str_ireplace($filter, (new Filter)->value($filter), request('body'));
         $post->update();
-        return redirect("/posts/{$id}");
+
+        return redirect("/posts/{$post->id}")
+            ->with(['flash' => 'Your post has been update!',
+                'class' => 'success']);
 
     }
 
@@ -122,21 +127,22 @@ class PostsController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
         $post = Post::find($id);
-        if (!$post->checkCreator()){
-            return redirect('/whoops');
-        }
+        $this->authorize('delete', $post);
         $file = $post->path();
         if ($file) {
-            if (is_readable(public_path($file))){
+            if (is_readable(public_path($file))) {
                 unlink(public_path($file));
             }
         }
         $post->delete();
-        return redirect('/posts');
+        return redirect('/posts')
+            ->with(['flash' => 'Your post has been deleted!',
+                'class' => 'success']);
     }
 
     /**
@@ -147,7 +153,6 @@ class PostsController extends Controller
     protected function isThumbnail(Request $request, $post): string
     {
         $name = '';
-
         if ($request->has('file') && $post) {
             if (is_readable(public_path($post->path()))) {
                 unlink(public_path($post->path()));

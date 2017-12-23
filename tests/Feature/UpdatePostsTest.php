@@ -12,6 +12,7 @@ class UpdatePostsTest extends TestCase
     /** @test */
     public function creator_can_update_his_post()
     {
+        $this->withExceptionHandling();
         $this->actingAs($user = factory('App\User')->create());
 
         $post = factory('App\Post')->create([
@@ -28,6 +29,7 @@ class UpdatePostsTest extends TestCase
     /** @test */
     public function admin_can_update_any_post()
     {
+        $this->withExceptionHandling();
         $this->actingAs($user = factory('App\User')->create(['name' => 'admin']));
 
         $post = factory('App\Post')->create();
@@ -42,6 +44,7 @@ class UpdatePostsTest extends TestCase
     /** @test */
     public function user_cannot_update_someone_else_post()
     {
+        $this->withExceptionHandling();
         $this->actingAs($user = factory('App\User')->create());
 
         $post = factory('App\Post')->create();
@@ -49,8 +52,7 @@ class UpdatePostsTest extends TestCase
             'title' => 'some title',
             'body' => 'some body'
         ])
-            ->assertRedirect('/whoops');
-
+            ->assertStatus(403);
     }
 
     /** @test */

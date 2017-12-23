@@ -11,6 +11,11 @@
                 @endforeach
             </div>
         </div>
+
+        <div class="flash alert alert-{{ session('class') }} alert-dismissible" role="alert">
+            {{ session('flash') }}
+        </div>
+
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 {{ $posts->links() }}

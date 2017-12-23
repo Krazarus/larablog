@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Liketable;
     protected $guarded = [];
+    protected $with = ['likes'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -37,14 +39,11 @@ class Post extends Model
     public function checkCreator()
     {
         $admin = User::where('name', 'admin')->first();
-        if ($this->user_id == auth()->id()) {
+        if ($admin->id == auth()->id()) {
             return true;
-        }
-        if ($admin) {
-            if ($admin->id == auth()->id()) {
-                return true;
-            }
         }
         return false;
     }
+
+
 }

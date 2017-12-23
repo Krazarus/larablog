@@ -36,11 +36,12 @@ class DeletePostsTest extends TestCase
     /** @test */
     public function user_cannot_delete_someone_else_post()
     {
+        $this->withExceptionHandling();
         $this->actingAs($user = factory('App\User')->create());
 
         $post = factory('App\Post')->create();
         $this->delete("/posts/{$post->id}")
-            ->assertRedirect('/whoops');
+            ->assertStatus(403);
 
     }
 
