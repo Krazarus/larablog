@@ -24,19 +24,19 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Post::class, function (Faker $faker) {
-    return [
-        'user_id' => function () {
-            return factory('App\User')->create()->id;
-        },
-        'title' => $faker->sentence,
-        'thumbnail' => $faker->image('public/images', $width = 640, $height = 480),
-        'body' => $faker->text($maxNbChars = 800)
-    ];
-});
-
-$factory->define(App\Filter::class, function (Faker $faker) {
-    return [
-        'name' => $faker->sentence
-    ];
-});
+//$factory->define(App\Post::class, function (Faker $faker) {
+//    return [
+//        'user_id' => function () {
+//            return factory('App\User')->create()->id;
+//        },
+//        'title' => $faker->sentence,
+//        'thumbnail' => $faker->image('public/images', $width = 640, $height = 480),
+//        'body' => $faker->text($maxNbChars = 800)
+//    ];
+//});
+//
+//$factory->define(App\Filter::class, function (Faker $faker) {
+//    return [
+//        'name' => $faker->sentence
+//    ];
+//});

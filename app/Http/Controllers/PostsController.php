@@ -50,12 +50,11 @@ class PostsController extends Controller
      */
     public function store(StorePost $request)
     {
-        $filter = Filter::all()->pluck('name')->toArray();
         $name = $this->isThumbnail($request, request('file'));
         $post = Post::create([
             'title' => request('title'),
             'user_id' => auth()->id(),
-            'body' => str_ireplace($filter, (new Filter)->value($filter), request('body')),
+            'body' => request('body'),
             'thumbnail' => $name,
         ]);
         return redirect($post->uri())
@@ -102,7 +101,6 @@ class PostsController extends Controller
      */
     public function update(StorePost $request, $id)
     {
-        $filter = Filter::all()->pluck('name')->toArray();
 
         $post = Post::find($id);
 
@@ -113,7 +111,7 @@ class PostsController extends Controller
             $post->thumbnail = $name;
         }
         $post->title = request('title');
-        $post->body = str_ireplace($filter, (new Filter)->value($filter), request('body'));
+        $post->body = request('body');
         $post->update();
 
         return redirect("/posts/{$post->id}")
