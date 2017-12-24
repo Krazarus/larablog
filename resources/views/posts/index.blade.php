@@ -10,7 +10,8 @@
                 </div>
                 <div class="col-md-4">
                     <p class="text-right">{{ $post->created_at->diffForHumans() }}
-                        <br>likes: {{ $post->likes->count() }}</p>
+                        <br>
+                        likes: <span class="badge badge-error">{{ $post->likes->count() }}</span> </p>
                 </div>
 
                     <a href="/posts/{{ $post->id }}"><h3>{{ $post->title }}</h3></a>

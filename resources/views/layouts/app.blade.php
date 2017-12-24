@@ -26,6 +26,12 @@
             right: 25px;
             bottom: 105px;
         }
+        .badge-error {
+            background-color: #b94a48;
+        }
+        .badge-error:hover {
+            background-color: #953b39;
+        }
     </style>
 </head>
 <body>
