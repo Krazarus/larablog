@@ -28,7 +28,7 @@ class PostsTableSeeder extends Seeder
             factory(App\Post::class)->create([
                 'title' => $title,
                 'body' => $body,
-                'user_id' => 1
+                'user_id' => 4
             ]);
         }
     }

@@ -5,8 +5,17 @@
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1 col-md-10">
                 @foreach($posts as $post)
-                    <a href="/posts/{{ $post->id }}"><h2>{{ $post->title }}</h2></a>
-                    <p>{!!  $post->body !!}</p>
+                <div class="col-md-8">
+                    <strong><p>{{ $post->creator->name }}</p></strong>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-right">{{ $post->created_at->diffForHumans() }}
+                        <br>likes: {{ $post->likes->count() }}</p>
+                </div>
+
+                    <a href="/posts/{{ $post->id }}"><h3>{{ $post->title }}</h3></a>
+                    <br>
+                    <p>{!!  str_limit($post->body, 150) !!}</p>
                     <hr>
                 @endforeach
             </div>

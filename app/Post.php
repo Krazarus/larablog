@@ -8,7 +8,7 @@ class Post extends Model
 {
     use Liketable;
     protected $guarded = [];
-    protected $with = ['likes'];
+    protected $with = ['likes', 'creator'];
 
     /**
      * Apply filter to body

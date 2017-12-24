@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Filter extends Model
 {
+    protected $guarded = [];
+
     public function censor($string)
     {
-
         $array = [];
         for ($i = 1; $i <= mb_strlen($string, 'UTF-8') - 2; $i++) {
             $array[] = '*';

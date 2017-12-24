@@ -7,7 +7,7 @@
                 <h2>All filters:</h2>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-primary pull-right">Create new filter</button>
+                <a class="btn btn-primary pull-right" href="/filters/create">Create</a>
             </div>
         </div>
         <hr>
@@ -20,9 +20,12 @@
                             <form action="/filters/{{ $filter->id }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
-                                <button class="btn btn-primary">Edit</button>
+                                <a  href="/filters/{{$filter->id}}/edit" class="btn btn-primary">Edit</a>
                                 <button type="submit" class="btn btn-danger">Destroy</button>
                             </form>
+
+
+
                         </div>
                     </div>
                 @endforeach

@@ -25,8 +25,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = DB::table('posts')
-            ->latest()
+        $posts = Post::latest()
+            ->with('likes')
             ->paginate(15);
 
         return view('posts.index', compact('posts'));

@@ -13,7 +13,6 @@
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </div>
                             </form>
-
                         </div>
                     @endcan
                     @can('update', $post)
@@ -56,22 +55,26 @@
                     @endif
                 @endif
 
-                <h1>{{ $post->title }}</h1>
-
-
-                @if($post->isUpdated())
-                    <p>created: {{ $post->created_at->diffForHumans() }}</p>
-                    <p>last updated: {{ $post->updated_at->diffForHumans() }}</p>
-                @else
-                    <p>created: {{ $post->created_at->diffForHumans() }}</p>
-                @endif
-                <p>{{ $post->creator->name }}</p>
-                <hr>
-                @if($post->thumbnail != '')
-                    <img src="{{ $post->path() }}" class="img-responsive">
-                    <hr>
-                @endif
-                <p>{!!$post->body !!}</p>
+                    <br>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">{{ $post->title }}</h1>
+                        </div>
+                        <div class="panel-body">
+                            @if($post->isUpdated())
+                                <p>This post created: {{ $post->created_at->diffForHumans() }} by <strong>{{ $post->creator->name }}</strong> </p>
+                                <p>last updated: {{ $post->updated_at->diffForHumans() }}</p>
+                            @else
+                                <p>This post was created: {{ $post->created_at->diffForHumans() }} by <strong>{{ $post->creator->name }}</strong> </p>
+                            @endif
+                            <hr>
+                            @if($post->thumbnail != '')
+                                <img src="{{ $post->path() }}" class="img-responsive">
+                                <hr>
+                            @endif
+                            <p>{!!$post->body !!}</p>
+                        </div>
+                    </div>
             </div>
         </div>
 

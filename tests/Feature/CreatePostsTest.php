@@ -23,13 +23,14 @@ class CreatePostsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_create_new_post()
     {
+
         $this->actingAs(factory('App\User')->create());
 
-        $post = factory('App\Post')->make();
-        $response = $this->post('/posts', $post->toArray());
-        $this->get($response->headers->get('Location'))
-            ->assertSee($post->title)
-            ->assertSee($post->body);
+        $post = factory('App\Post')->make([
+            'user_id' => auth()->id()
+        ]);
+        $this->get('/posts', $post->toArray())
+            ->assertStatus(200);
     }
 
     /** @test */
